@@ -1,2 +1,2 @@
 # CodeStash
-Random Projects
+:)
