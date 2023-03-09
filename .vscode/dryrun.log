@@ -1,6 +1,4 @@
 make.exe --dry-run --always-make --keep-going --print-directory
-make: Entering directory 'c:/Users/zxcus/OneDrive/Documents/CodeStash'
-make: Leaving directory 'c:/Users/zxcus/OneDrive/Documents/CodeStash'
- 
-make: *** No targets specified and no makefile found.  Stop.
+'make.exe' is not recognized as an internal or external command,
+operable program or batch file.
 
