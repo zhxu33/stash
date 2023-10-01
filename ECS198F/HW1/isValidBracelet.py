@@ -3,7 +3,7 @@ def isValidBracelet(array_of_beads):
 
     # edge cases: number of beads is odd
     if len(array_of_beads) % 2:
-        return False
+        return 'False'
     
     # test for beads on 1 axis
     found = False
@@ -14,7 +14,7 @@ def isValidBracelet(array_of_beads):
             found = True
             break
     if not found: # valid symmetric bracelet    
-        return True
+        return 'True'
     
     # try connecting start and end beads
     start = len(array_of_beads)-2
@@ -23,7 +23,7 @@ def isValidBracelet(array_of_beads):
         left_color, left_side = array_of_beads[start].split('_')
         right_color, right_side = array_of_beads[end].split('_')
         if left_color != right_color or left_side == right_side: # found not matching
-            return False
+            return 'False'
         start -= 1
         if end == len(array_of_beads) - 1:
             end = 0
@@ -31,30 +31,4 @@ def isValidBracelet(array_of_beads):
             end += 1
         if start < end:
             break
-    return True # valid symmetric bracelet
-
-arr1 = ["red_left", "blue_left", "blue_right", "red_right"]
-result1 = isValidBracelet(arr1)
-# Expected Output: "True"
-
-arr2 = ["red_left", "blue_left", "yellow_left", "yellow_right", "blue_right", "red_right"]
-result2 = isValidBracelet(arr2)
-# Expected Output: "True"
-
-arr3 = ["red_left", "blue_left", "yellow_left", "blue_right", "red_right"]
-result3 = isValidBracelet(arr3)
-# Expected Output: "False"
-
-arr4 = ["red_left", "blue_right"]
-result4 = isValidBracelet(arr4)
-# Exptected Output: "False"
-
-arr5 = []
-result5 = isValidBracelet(arr5)
-# Exptected Output: "True"
-
-arr6 = ["red_left", "red_right", "blue_left", "blue_right"]
-result6 = isValidBracelet(arr6)
-# Exptected Output: "True"
-
-print(result1, result2, result3, result4, result5, result6)
+    return 'True' # valid symmetric bracelet
