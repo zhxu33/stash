@@ -1,8 +1,8 @@
 def isValidBracelet(arr):
     # time complexity: O(n), space complexity: O(1)
 
-    # edge cases: number of beads is 0 or odd
-    if not arr or len(arr) % 2:
+    # edge cases: number of beads is odd
+    if len(arr) % 2:
         return False
     
     # test for beads on 1 axis
@@ -35,26 +35,26 @@ def isValidBracelet(arr):
 
 arr1 = ["red_left", "blue_left", "blue_right", "red_right"]
 result1 = isValidBracelet(arr1)
-# Expected Output: True
+# Expected Output: "True"
 
 arr2 = ["red_left", "blue_left", "yellow_left", "yellow_right", "blue_right", "red_right"]
 result2 = isValidBracelet(arr2)
-# Expected Output: True
+# Expected Output: "True"
 
 arr3 = ["red_left", "blue_left", "yellow_left", "blue_right", "red_right"]
 result3 = isValidBracelet(arr3)
-# Expected Output: False
+# Expected Output: "False"
 
 arr4 = ["red_left", "blue_right"]
 result4 = isValidBracelet(arr4)
-# Exptected Output: False
+# Exptected Output: "False"
 
-arr5 = ["blue_left", "green_left", "green_right", "blue_right", "yellow_left", "yellow_right"]
+arr5 = []
 result5 = isValidBracelet(arr5)
-# Expected Output: True
+# Exptected Output: "True"
 
-arr6 = []
+arr6 = ["red_left", "red_right", "blue_left", "blue_right"]
 result6 = isValidBracelet(arr6)
-# Expected Output: False
+# Exptected Output: "True"
 
 print(result1, result2, result3, result4, result5, result6)
