@@ -45,7 +45,7 @@ def detectCycle(linked_list):
 
 import collections
 def find_next_recommendation(graph, current_friends):
-  #time complexity: O(n^2)
+  #time complexity: O(E)
   queue = collections.deque(current_friends) # BFS
   queue.append('You')
   visit = {f for f in queue} # track visited friends
