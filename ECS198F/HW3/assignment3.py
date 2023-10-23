@@ -1,67 +1,66 @@
 def runErrands(graph: list[list[int]]) -> int:
-  res = float('inf')
-  visit = set()
-  def dfs(i):
-    if len(visit) == len(graph) or i in visit:
-      return 0
+  res = len(graph) * len(graph)
+  def dfs(i, amt, visit):
+    nonlocal res
+    if amt >= res or len(visit) == len(graph):
+      res = amt
+      return
     visit.add(i)
-    cur = 1
-    for c in graph[i]:
-      cur = min(cur, 1+dfs(ord(c) - ord('a')))
-      print(cur)
-    visit.remove(i)
-    return cur
+    for j, c in enumerate(graph[i]):
+      if j == c:
+        continue
+      dfs(ord(c) - ord('a'), amt + 1, visit.copy())
   for i in range(len(graph)):
-    res = min(res,dfs(i))
+    dfs(i, -1, set())
   return res
 
-# Example 1
-graph1 = [['b','c','d'],['a'],['a'],['a']]
-print(runErrands(graph1))
-# Exptected Output: "4"
-# One possible path is [b,a,c,a,d]
-
-#Example 2
-graph2 = [['b'],['a','c','e'],['b','d','e'],['c'],['b','c']]
-print(runErrands(graph2))
-# Exptected Output: "4"
-# One possible path is [a, b, e, c, d]
-
-class ListNode:
-    def __init__(self, key = -1, val = -1):
+class Node:
+    def __init__(self, key, value):
         self.key = key
-        self.val = val
+        self.value = value
         self.next = None
+        self.prev = None
 
 class clipboard:
 
     def __init__(self, capacity: int):
+        self.map = {} # key : node
         self.capacity = capacity
-        self.accessHeap = [] #access amount, key
-        self.map = {}
+        self.cur_capacity = 0
+        self.head = None
+        self.tail = None
 
     def paste(self, key: int) -> int:
-      return map[key]
+      if key not in self.map:
+         return -1
+      # set as most recently accessed
+      prev = self.map[key].prev
+      next = self.map[key].next
+      if prev:
+         prev.next = next
+      if next:
+         next.prev = prev
+      if not next and prev:
+         self.tail = prev
+      if self.head:
+        self.map[key].next = self.head
+        self.head.prev = self.map[key]
+      self.head = self.map[key]
+      return self.map[key].value
         
     def copy(self, key: int, value: int) -> None:
-      self.map[key] = value
-      pass
-
-# Your clipboard object will be instantiated and called as such:
-# clip = clipboard(capacity)
-# clip.put(key,value)
-# param_1 = clip.get(key)
-
-
-clip = clipboard(2)
-clip.copy(1, 1) # clip is {1=1}
-clip.copy(2, 2) # clip is {1=1, 2=2}
-clip.paste(1) # return 1
-clip.copy(3, 3) 
-# Least recently accessed key was 2, evicts key 2, clipboard is {1=1, 3=3}
-clip.paste(2)    # returns -1 (not found)
-clip.copy(4, 4) 
-# Least recently accessed key was 1, evicts key 1, clipboard is {4=4, 3=3}
-clip.paste(1)    # return -1 (not found)
-clip.paste(3)    # return 3
-clip.paste(4)    # return 4
+      self.map[key] = Node(key, value)
+      # set as most recently accessed
+      if self.head:
+        self.map[key].next = self.head
+        self.head.prev = self.map[key]
+      self.head = self.map[key]
+      self.cur_capacity += 1
+      if not self.tail:
+        self.tail = self.head
+      if self.cur_capacity > self.capacity: # remove least recent accessed
+         del self.map[self.tail.key]
+         self.cur_capacity -= 1
+         temp = self.tail.prev
+         self.tail.prev.next = None
+         self.tail = temp
