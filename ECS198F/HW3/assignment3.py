@@ -1,5 +1,20 @@
 def runErrands(graph: list[list[int]]) -> int:
-  return len(graph)
+  dp = {}
+  def dfs(i, m):
+    if (i, m) in dp:
+      return dp[(i,m)]
+    if m & (m - 1) == 0:
+      return 0
+    dp[(i,m)] = float('inf')
+    for c in graph[i]:
+      index = ord(c) - ord('a')
+      if m & (1 << index):
+          dp[(i,m)] = min(dp[(i,m)], 1+dfs(index, m), 1+dfs(index, m^(1<<i)))
+    return dp[(i,m)]
+  res = float('inf')
+  for i in range(len(graph)):
+     res = min(res, dfs(i, (1<<len(graph))-1))
+  return res
 
 class Node:
     def __init__(self, key, value):
