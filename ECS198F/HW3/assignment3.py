@@ -1,4 +1,12 @@
 def runErrands(graph: list[list[int]]) -> int:
+  for i in range(len(graph)):
+     char = chr(ord('a')+i)
+     for c in graph[i]:
+        index = ord(c) - ord('a')
+        while index >= len(graph):
+          graph.append([])
+        if char not in graph[index]:
+           graph[index].append(char)   
   dp = {}
   def dfs(i, m):
     if (i, m) in dp:
