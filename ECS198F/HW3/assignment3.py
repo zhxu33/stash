@@ -1,29 +1,20 @@
+import collections
 def runErrands(graph: list[list[int]]) -> int:
+  queue = collections.deque([])
+  visit = set()
   for i in range(len(graph)):
-     char = chr(ord('a')+i)
-     for c in graph[i]:
-        index = ord(c) - ord('a')
-        while index >= len(graph):
-          graph.append([])
-        if char not in graph[index]:
-           graph[index].append(char)   
-  dp = {}
-  def dfs(i, m):
-    if (i, m) in dp:
-      return dp[(i,m)]
-    if m & (m - 1) == 0:
-      return 0
-    dp[(i,m)] = float('inf')
-    for c in graph[i]:
-      index = ord(c) - ord('a')
-      if m & (1 << index):
-          dp[(i,m)] = min(dp[(i,m)], 1+dfs(index, m), 1+dfs(index, m^(1<<i)))
-    return dp[(i,m)]
-  res = float('inf')
-  for i in range(len(graph)):
-     res = min(res, dfs(i, (1<<len(graph))-1))
-  return res
-
+      visit.add((i, 1 << i))
+      queue.append((i, 0, 1 << i))
+  while queue:
+      i, amt, mask = queue.popleft()
+      if mask == (1<<len(graph))-1:
+          return amt
+      for c in graph[i]:
+          index = ord(c) - ord('a')
+          m = mask | (1 << index)
+          if (index, m) not in visit:
+              visit.add((index, m))
+              queue.append((index, amt+1, m))
 class Node:
     def __init__(self, key, value):
         self.key = key
