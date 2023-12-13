@@ -17,7 +17,7 @@ def predict_tree_height(target_tree_coordinates, all_trees, all_heights, k):
     i += 1
     found += 1
     total += all_heights[index]
-  return total/k
+  return round(total / k, 10) 
   
 # print(predict_tree_height([0, 0], [(0, 0), (1, 1), (2, 2), (3, 3)], [100.27, 103.56, 97.22, 107.39], 2))
 
@@ -74,14 +74,17 @@ def rearrange_bracelet(bracelet, k):
 # "jjjkffgg"
 
 def second_longest_prefix(text):
-  r = len(text)//2
-  n = len(text)
-  res = []
-  while r < n:
-    if text[:n-r] == text[r:]:
-      res.append(text[r:])
-    r += 1
-  return res[1] if len(res) > 1 else ""
+  res = ""
+  res2 = ""
+  for i in range(len(text)): 
+    prefix, suffix = text[:i], text[-i:]
+    if prefix == suffix:
+      if len(prefix) > len(res):
+        res2 = res
+        res = prefix
+      elif len(prefix) > len(res2):
+        res2 = prefix
+  return res2
 
 # print(second_longest_prefix("ssiencss"))
 # "s"
